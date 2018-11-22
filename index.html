@@ -1,0 +1,169 @@
+
+
+<html>
+<head>
+<title>Maungati Mouse</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<style type="text/css">
+
+	#themenu{
+	
+	height:900px;
+	background:#0099DD;
+	padding-left:20px;
+	padding-right:20px;
+	float:left;
+	    	}
+			
+	#thebody{
+	
+	padding-top:50px;
+	text-align:center
+	
+	}
+
+    .heading{font-weight:bold;
+			 font-size:large;
+			 text-align:center;
+			 } 
+	 BODY { 
+			 cursor:url("images/mag2.cur"),url("images/mag2.cur"), default; 
+	  }
+	<!-- A {cursor:url("images/maungati2.cur"),url("images/maungati2.cur"), default; } -->
+
+</style>
+
+</head>
+
+
+<body  onLoad="showPage('series.html')"  >
+
+ <DIV id="themenu" >
+		<span style='cursor:url("images/maungati2.cur")'>
+		<center><font color="#000066" size="+3" face="Arial, Helvetica, sans-serif">Menu</font></center>
+		<br />
+		<br />
+				<div onclick=showPage("series.html") >
+						<img src="images/series.jpg" alt="About the series" /> 
+				</div>
+				<br />
+				<div onclick=showPage("maungatimouse.html")>
+						<img src="images/MM01sm.jpg" alt="Magnus and the Maungati Mouse"  /> 
+						
+				</div>
+				<br />
+				<div onclick=showPage("maungatichristmas.html")>
+						<img src="images/bk2covsm.jpg" alt="Magnus and Maungati's Christmas" />
+				</div>
+				<br />
+				<div onclick=showPage("motorbike.html")>
+						
+						<img src="images/mobikecovsm.jpg" alt="Magnus and the Motorbike" />	
+						
+				</div>		
+				<br />
+				<div onclick=showPage("eqrescue.html")>
+						
+						<img src="images/bk4CoverSmall.jpg" alt="Maungati Mouse and the EQ Rescue" />	
+						
+				</div>		
+				<br />
+		        <div onclick=showPage("about.html")>
+						
+						<img src="images/jan01.jpg" alt="About the author" />	
+						
+				</div>
+				<br />
+        </span>
+<br />
+<!-- AddThis Button BEGIN --> 
+<a class="addthis_button" href="http://www.addthis.com/bookmark.php?v=250&amp;pub=spacereview"><img src="http://s7.addthis.com/static/btn/v2/lg-share-en.gif" width="125" height="16" alt="Bookmark and Share" style="border:0"/></a><script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=spacereview"></script> 
+<!-- AddThis Button END --> 
+
+</DIV><div id="thebody">
+
+</div>
+<script>
+function showPage(url) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.onreadystatechange= function() {
+        if (this.readyState!==4) return;
+        if (this.status!==200) return; 
+        document.getElementById('thebody').innerHTML= this.responseText;
+    };
+    xhr.send();
+}
+
+var innerString;	
+function showPage2(pageName){
+
+		var task = pageName;
+		 //---------------------------------
+		 //  call database -----------
+		 //---------------------------------		
+		url="initialisePage2.php";  //global variable		
+		updateDetails(task,url);
+		
+}
+
+function updateDetails(par1,url){
+ var status = false;
+
+    var contentType = "application/x-www-form-urlencoded; charset=UTF-8";
+   
+   
+	var query = createQuery(par1,url);
+	// alert(" q is " + query);
+ 
+    // Native XMLHttpRequest object
+    if (window.XMLHttpRequest) {
+        request = new XMLHttpRequest();
+        request.onreadystatechange = handleHttpResponse;
+		//alert("request ");
+        request.open("POST", url, true);
+        request.setRequestHeader("Content-Type", contentType);
+        request.send(query);
+        status = true;
+    // ActiveX XMLHttpRequest object
+    } else if (window.ActiveXObject) {
+        request = new ActiveXObject("Microsoft.XMLHTTP");
+        if (request) {
+            request.onreadystatechange = handleHttpResponse;
+            request.open("post", url, true);
+            request.setRequestHeader("Content-Type", contentType);
+            request.send(query);
+            status = true;
+        }
+    }
+//	alert("status is " + status);
+
+    return status;
+}
+
+function createQuery(par1,url)
+{
+       var pairs = new Array();
+  	   pairs.push("task" + "=" + encodeURIComponent(par1));	   
+       return pairs.join("&");
+}   
+
+function handleHttpResponse() {
+document.getElementById('thebody').innerHTML = '';
+  if (request.readyState == 4)          {
+    if (request.responseText.indexOf('invalid') == -1) {  
+//==============================================  
+	        
+	  var result;					
+	   		
+	   		result = request.responseText;
+			
+			document.getElementById('thebody').innerHTML=result;	
+			}
+  }			
+ }     
+
+</script>
+		
+
+</html>
